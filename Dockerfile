@@ -19,3 +19,5 @@ RUN flutter config --enable-windows-desktop
 RUN flutter config --enable-macos-desktop
 RUN flutter config --enable-linux-desktop
 RUN flutter doctor -v
+
+ENV PUB_HOSTED_URL=https://pub.flutter-io.cn
