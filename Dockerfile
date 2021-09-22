@@ -5,6 +5,14 @@ RUN apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-m
 RUN apt-get install -y --no-install-recommends cmake ninja-build clang build-essential pkg-config libgtk-3-dev liblzma-dev lcov
 RUN apt-get clean
 
+# Install appimagetool AppImage
+RUN wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /opt/appimagetool
+
+# workaround AppImage issues with Docker
+RUN cd /opt/ && chmod +x appimagetool && sed -i 's|AI\x02|\x00\x00\x00|' appimagetool && ./appimagetool --appimage-extract
+RUN mv /opt/squashfs-root /opt/appimagetool.AppDir
+RUN ln -s /opt/appimagetool.AppDir/AppRun /usr/local/bin/appimagetool
+
 # Clone the flutter repo
 RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
 
