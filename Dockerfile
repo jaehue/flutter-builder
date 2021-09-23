@@ -13,11 +13,22 @@ RUN cd /opt/ && chmod +x appimagetool && sed -i 's|AI\x02|\x00\x00\x00|' appimag
 RUN mv /opt/squashfs-root /opt/appimagetool.AppDir
 RUN ln -s /opt/appimagetool.AppDir/AppRun /usr/local/bin/appimagetool
 
+ARG user=flutter
+ARG group=flutter
+ARG uid=1000
+ARG gid=1000
+ARG FLUTTER_HOME=/var/flutter_home
+# flutter-builder is run with user `flutter`, uid = 1000
+# If you bind mount a volume from the host or a data container, 
+# ensure you use the same uid
+RUN groupadd -g ${gid} ${group} && useradd -d "$FLUTTER_HOME" -u ${uid} -g ${gid} -m -s /bin/bash ${user}
+USER ${user}
+
 # Clone the flutter repo
-RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+RUN git clone https://github.com/flutter/flutter.git $FLUTTER_HOME/flutter
 
 # Set flutter path
-ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
+ENV PATH="$FLUTTER_HOME/flutter/bin:$FLUTTER_HOME/flutter/bin/cache/dart-sdk/bin:${PATH}"
 
 # Enable flutter web
 RUN flutter channel stable
