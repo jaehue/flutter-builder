@@ -22,6 +22,7 @@ ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PAT
 # Enable flutter web
 RUN flutter channel stable
 RUN flutter upgrade
+RUN flutter config --no-analytics
 RUN flutter config --enable-web
 RUN flutter config --enable-windows-desktop
 RUN flutter config --enable-macos-desktop
