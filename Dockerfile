@@ -29,4 +29,12 @@ RUN flutter config --enable-macos-desktop
 RUN flutter config --enable-linux-desktop
 RUN flutter doctor -v
 
+RUN cd /tmp && flutter create app && cd app && flutter build linux --release
+COPY ./AppImageBuilder.yml /tmp/app/
+RUN mkdir -p /tmp/app/AppDir/usr/share/icons/hicolor/64x64/apps/ \
+    && cp /tmp/app/web/icons/Icon-192.png /tmp/app/AppDir/usr/share/icons/hicolor/64x64/apps/icon-64.png \
+    && cp -r /tmp/app/build/linux/x64/release/bundle/* /tmp/app/AppDir/ \
+    && cd /tmp/app && appimage-builder --recipe AppImageBuilder.yml --skip-test || true \
+    && cd / && rm -rf /tmp/app
+
 ENV PUB_HOSTED_URL=https://pub.flutter-io.cn
