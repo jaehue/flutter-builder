@@ -29,7 +29,9 @@ RUN flutter config --enable-macos-desktop
 RUN flutter config --enable-linux-desktop
 RUN flutter doctor -v
 
-RUN cd /tmp && flutter create app && cd app && flutter build linux --release
+RUN cd /tmp && flutter create app && cd app && flutter pub get \
+    && flutter build web --release \
+    && flutter build linux --release
 COPY ./AppImageBuilder.yml /tmp/app/
 RUN mkdir -p /tmp/app/AppDir/usr/share/icons/hicolor/64x64/apps/ \
     && cp /tmp/app/web/icons/Icon-192.png /tmp/app/AppDir/usr/share/icons/hicolor/64x64/apps/icon-64.png \
