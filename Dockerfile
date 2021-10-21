@@ -37,6 +37,6 @@ RUN mkdir -p /tmp/app/AppDir/usr/share/icons/hicolor/64x64/apps/ \
     && cp /tmp/app/web/icons/Icon-192.png /tmp/app/AppDir/usr/share/icons/hicolor/64x64/apps/icon-64.png \
     && cp -r /tmp/app/build/linux/x64/release/bundle/* /tmp/app/AppDir/ \
     && cd /tmp/app && appimage-builder --recipe AppImageBuilder.yml --skip-tests \
-    && cd / && rm -rf /tmp/app
+    && cd / && mkdir /app && cp -r /tmp/app/appimage-builder-cache/ /app/ && rm -rf /tmp/app
 
 ENV PUB_HOSTED_URL=https://pub.flutter-io.cn
