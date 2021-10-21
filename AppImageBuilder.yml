@@ -1,13 +1,13 @@
 # appimage-builder recipe see https://appimage-builder.readthedocs.io for details
 version: 1
 AppDir:
-  path: /app/AppDir
+  path: /tmp/app/AppDir
   app_info:
     id: cn.com.sysware.ide
     name: cloud-ide
     icon: icon-64
     version: latest
-    exec: build
+    exec: app
     exec_args: $@
   apt:
     arch: ["amd64"]
